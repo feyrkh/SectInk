@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://7l7esx1588kk"]
+
+[ext_resource type="Script" path="res://area/Interactable.gd" id="1_pb20h"]
+[ext_resource type="Texture2D" uid="uid://cbsfgfeg13jym" path="res://assets/room/pixel.png" id="2_b5l8k"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bia0o"]
+radius = 11.0
+height = 98.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l3s0w"]
+radius = 16.0
+height = 94.0
+
+[node name="BigMachine" type="StaticBody2D"]
+script = ExtResource("1_pb20h")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.631373, 0.2, 0.596078, 1)
+position = Vector2(0, -40)
+scale = Vector2(86.5, 77.25)
+texture = ExtResource("2_b5l8k")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bia0o")
+metadata/_edit_lock_ = true
+
+[node name="TriggerArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2(-1, -1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_l3s0w")
+
+[connection signal="body_entered" from="TriggerArea" to="." method="_on_trigger_area_body_entered"]
+[connection signal="body_exited" from="TriggerArea" to="." method="_on_trigger_area_body_exited"]

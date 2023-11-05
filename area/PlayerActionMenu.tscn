@@ -1,0 +1,87 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfq8gareya4gd"]
+
+[ext_resource type="Script" path="res://area/PlayerActionMenu.gd" id="1_7s8ow"]
+
+[node name="PlayerActionMenu" type="PanelContainer"]
+offset_left = -117.0
+offset_top = -264.0
+offset_right = 122.0
+offset_bottom = -178.0
+script = ExtResource("1_7s8ow")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="UpArrow" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "^"
+horizontal_alignment = 1
+
+[node name="PrevAction" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "asdf"
+horizontal_alignment = 1
+
+[node name="UpArrow2" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "^"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Empty Line" type="Label" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = " >"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/HBoxContainer2/MarginContainer"]
+self_modulate = Color(1, 1, 1, 0.109804)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SelectedAction" type="Label" parent="VBoxContainer/HBoxContainer2/MarginContainer"]
+layout_mode = 2
+text = "asdf"
+horizontal_alignment = 1
+
+[node name="Empty Line2" type="Label" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = " <"
+horizontal_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="DownArrow" type="Label" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "v"
+horizontal_alignment = 1
+
+[node name="NextAction" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "asdf"
+horizontal_alignment = 1
+
+[node name="DownArrow2" type="Label" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "v"
+horizontal_alignment = 1

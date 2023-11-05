@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4jawu6mxkjyf"]
+
+[ext_resource type="Script" path="res://spell/SpellFrequencyCurve.gd" id="1_biiaq"]
+
+[sub_resource type="Curve2D" id="Curve2D_ryg87"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 317, -75.2899, 49.478, 75.2899, -49.478, 483, 306, 187.047, -3.44733, -187.047, 3.44733, 583, 15, 0, 0, 0, 0, 648, 314, 0, 0, 0, 0, 1145, 317, 0, 0, 0, 0, 0, 317)
+}
+point_count = 6
+
+[node name="SpellBuilder" type="Node2D"]
+
+[node name="SpellFrequencyCurve" type="Path2D" parent="."]
+position = Vector2(0, 40)
+curve = SubResource("Curve2D_ryg87")
+script = ExtResource("1_biiaq")

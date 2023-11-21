@@ -3,6 +3,8 @@ class_name InventoryItem
 
 static var _nextRandomNumber:int = 0
 
+var props:Dictionary = {}
+
 var typeName:String:
 	get:
 		return CatalogueMgr.getTypeName(typeId)
@@ -16,7 +18,10 @@ var catalogueId:String:
 		return CatalogueMgr.getCatalogueId(typeId, variantId, itemNumber)
 var tier:int = 1
 
-func _init(typeName:String):
+func _to_string():
+	return "{%s}" % catalogueId
+
+func _init(typeName:String="unknown"):
 	self.typeId = CatalogueMgr.getTypeIdForName(typeName)
 
 ## override in subclasses
@@ -38,13 +43,10 @@ func getNextRandomNumberFromType() -> float:
 func getRandomNumber(numberIdx:int, useVariant=true) -> float:
 	var curSeed
 	if useVariant:
-		curSeed = (((typeId<<16) | variantId) + numberIdx) ^ CatalogueMgr.hashSalt
+		curSeed = (((typeId<<16) | variantId) + numberIdx)
 	else:
-		curSeed = (((typeId<<16)) + numberIdx) ^ CatalogueMgr.hashSalt
-	var baseNum = abs(rand_from_seed(curSeed)[0])
-	var maxFloat = float(4294967296)
-	var result = baseNum / maxFloat
-	return result
+		curSeed = (((typeId<<16)) + numberIdx)
+	return Rand.stableFloat(curSeed)
 
 func getRandomNumberFromType(numberIdx:int) -> float:
 	return getRandomNumber(numberIdx, false)
@@ -54,3 +56,9 @@ func getDescription():
 
 func getPlayerActions(_player:Player) -> Array[PlayerAction]:
 	return []
+
+func setProp(k:String, val):
+	props[k] = val
+
+func getProp(k:String, default=null):
+	return props.get(k, default)

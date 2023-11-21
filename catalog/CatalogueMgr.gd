@@ -1,31 +1,10 @@
 extends Node
 
-var propertyDescriptors = {
-	"luminance": [["matte","dark","pale"],["faint","subdued","gentle"],["dim","dull","gloomy"],["murky","obscure","shadowy"],["muted","soft","pale"],["moderate","average","medium"],["gleaming","shining","vivid"],["iridescent","shimmering"],["bright","brilliant"],["luminous","glowing","vibrant"],["dazzling","intense"],["blinding","radiant"]],
-	"hardness": [["gelatinous", "semi-solid", "viscous"],
-		["yielding", "flexible"],
-		["malleable", "pliable"],
-		["chalky", "powdery", "crumbly"],
-		["flexible", "yielding"],
-		["springy", "resilient"],
-		["firm", "stiff"],
-		["rigid", "inflexible", "hard"],
-		["solid", "dense"],
-		["tough", "durable", "robust"],
-		["unyielding", "rigid", "inflexible"],
-		["adamantine", "indestructible", "unbreakable"]],
-	"hue": ["red", "orange", "yellow", "chartreuse", "green", "spring green", "cyan", "azure", "blue", "violet", "magenta", "rose"],
-	"clarity": ["opaque", "cloudy", "occluded", "milky", "hazy", "frosted", "misted", "translucent", "semitransparent", "slightly included", "transparent", "crisp", "flawless", "pristine"],
-	"size": ["miniscule", "petite", "compact", "small", "modest", "average", "sizeable", "large", "massive", "enormous", "gigantic"],
-	"saturation": ["pale", "muted", "soft", "vivid", "bold", "intense"]
-}
-
 var itemTypeToClass = {
 	"powerGem": PowerGem,
 	"crystalChecker": CrystalChecker,
 }
 
-var hashSalt = randi()
 var catalogueChars = "0123456789BCDFGHJKLMNPRSTVXYZ".split('')
 var catalogueCharCount = catalogueChars.size()
 var _nextTypeId = 0
@@ -39,18 +18,6 @@ var phonemes
 var vowels = "aioy".split("")
 var consonants = "bdfghjklmnpqrstvwxyz".split("")
 
-func _init():
-	choosePropertyDescriptors()
-
-func choosePropertyDescriptors():
-	var i = 0
-	for propertyName in propertyDescriptors:
-		propertyDescriptors[propertyName] = propertyDescriptors[propertyName].map(func(opts):
-			if opts is String:
-				return opts
-			i += 1
-			return opts[rand_from_seed(hashSalt + i)[0] % opts.size()]
-		)
 ## newVariantChance is a value added to the random variant roll, and it has less of an impact over time.
 ## For example, if the value is 0.1, then the first variant rolled will pick a random number from
 ## 0 to 0.1, then floor it, always giving a variant ID of 0. The next call will pick a random number from
@@ -60,7 +27,7 @@ func choosePropertyDescriptors():
 ## 2 in half.
 func generateRandomItem(itemType:String, newVariantChance:float = 0.1) -> InventoryItem:
 	var itemClass = itemTypeToClass.get(itemType, InventoryItem)
-	var item:InventoryItem = itemClass.new(itemType)
+	var item:InventoryItem = itemClass.new()
 	item.typeId = getTypeIdForName(itemType)
 	item.variantId = getRandomVariantId(item.typeId, newVariantChance)
 	if !typeIdToVariantConfigArray.has(item.typeId):
@@ -83,11 +50,6 @@ func getRandomVariantId(typeId:int, newVariantChance:float) -> int:
 	if (existingVariants.size() == 0):
 		return 0
 	return min(existingVariants.size(), floor(randf_range(0, max(0, existingVariants.size()-0.0000001+newVariantChance))))
-
-func getPropertyDescriptor(property:String, value:float):
-	value = clampf(value, 0, 0.9999999)
-	var arr = propertyDescriptors.get(property, ["unknown"])
-	return arr[floor(value * arr.size())]
 
 func getVocabulary(realName:String) -> String:
 	if !vocabulary.has(realName):
@@ -117,7 +79,7 @@ func getVariantName(typeId:int, variantId:int) -> String:
 func buildId(id:int, idLength:int):
 	var retval = ""
 	for i in range(idLength):
-		retval += catalogueChars[rand_from_seed(id ^ hashSalt + i)[0] % catalogueCharCount]
+		retval += catalogueChars[Rand.stableInt(id + i) % catalogueCharCount]
 	return retval
 
 func buildVariantId(typeId:int, variantId:int, idLength:int):

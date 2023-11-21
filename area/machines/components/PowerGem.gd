@@ -12,11 +12,13 @@ func generateOverrideProps(props:Dictionary):
 
 
 func getDescription():
-	return "A faceted, glowing gemstone. Some of the ancient equipment has slots where these can be " + \
-		"inserted, affecting how the equipment functions. Hue: %s, luminance: %s, size: %s, hardness: %s, clarity: %s" % [
-		CatalogueMgr.getPropertyDescriptor("hue", props["hue"]),
-		CatalogueMgr.getPropertyDescriptor("luminance", props["luminance"]),
-		CatalogueMgr.getPropertyDescriptor("size", props["size"]),
-		CatalogueMgr.getPropertyDescriptor("hardness", props["hardness"]),
-		CatalogueMgr.getPropertyDescriptor("clarity", props["clarity"]),
+	return "%s %s %s stone of %s %s. It has %s %s glow about it. Some of the ancient equipment has slots where these can be \
+		inserted, affecting how the equipment functions. " % [
+		PropertyMgr.An(PropertyMgr.getPropertyDescriptor("size", props["size"])),
+		PropertyMgr.getPropertyDescriptor("size", props["size"]),
+		PropertyMgr.getPropertyDescriptor("hardness", props["hardness"]),
+		PropertyMgr.getPropertyDescriptor("clarity", props["clarity"]),
+		PropertyMgr.getPropertyDescriptor("hue", props["hue"]),
+		PropertyMgr.an(PropertyMgr.getPropertyDescriptor("luminance", props["luminance"])),
+		PropertyMgr.getPropertyDescriptor("luminance", props["luminance"]),
 	]

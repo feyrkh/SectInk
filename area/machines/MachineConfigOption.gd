@@ -9,6 +9,8 @@ var maxValue:float = 1.0
 var valueSteps:int = 5
 var valueIncrement:float:
 	get: return (maxValue - minValue)/valueSteps
+## If true, the player is able to adjust this value. If false, it is stuck and invisible
+var usable:bool = true
 
 func getValueForStep(step:int) -> float:
 	return minValue + (step * valueIncrement)

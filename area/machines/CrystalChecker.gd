@@ -1,6 +1,18 @@
 extends BigMachine
 class_name CrystalChecker
 
+func generateInputItemOptions() -> Array[InventoryItemOption]:
+	var result = super.generateInputItemOptions()
+	var tmpProps = []
+	if configSettingOptions.has("luminance range") || configSettingOptions.has("luminance precision"):
+		tmpProps.append("luminance")
+	if configSettingOptions.has("hue range") || configSettingOptions.has("hue precision"):
+		tmpProps.append("hue")
+	result.append_array([
+		InventoryItemOption.new("input", tmpProps)
+	])
+	return result
+
 func generateMachineEffects() -> Array[MachineEffect]:
 	var result = super.generateMachineEffects()
 	result.append_array([
@@ -8,8 +20,10 @@ func generateMachineEffects() -> Array[MachineEffect]:
 		# A tier 0 machine  has a range from 0.1 to 0.15, covering 20 to 30% of the range if perfectly
 		# component slotted. A difference of 50% from the ideal would give a reduction of 15%, for a range of
 		# 5 - 15%
-		RangeMachineEffect.new("hue zoom", getNextRandomNumber(), 0.1 + getNextRandomNumber() * tier * 0.05, 0.3),
-		RangeMachineEffect.new("luminance zoom", getNextRandomNumber(), 0.1 + getNextRandomNumber() * tier * 0.05, 0.3),
+		RangeMachineEffect.new("hue range", getNextRandomNumber(), 0.1 + getNextRandomNumber() * tier * 0.05, 0.3),
+		RangeMachineEffect.new("luminance range", getNextRandomNumber(), 0.1 + getNextRandomNumber() * tier * 0.05, 0.3),
+		ResolutionMachineEffect.new("hue precision", 0.001 + getNextRandomNumber() * 0.01, getNextRandomNumber()*30),
+		ResolutionMachineEffect.new("luminance precision", 0.001 + getNextRandomNumber() * 0.01, getNextRandomNumber()*30),
 	])
 	return result
 
@@ -46,15 +60,26 @@ func generateConfigOptions() -> Dictionary:
 	var luminancePrecisionOption = MachineConfigOption.generateConfig("luminance precision", self.getNextRandomNumber, effectiveTier, 2, 2, 1, 0.05, 0.05, 0.05)
 	var hueRangeOption = MachineConfigOption.generateConfig("hue range", self.getNextRandomNumber, effectiveTier, 2, 2, 1, 0.05, 0.05, 0.05)
 	var huePrecisionOption = MachineConfigOption.generateConfig("hue precision", self.getNextRandomNumber, effectiveTier, 2, 2, 1, 0.05, 0.05, 0.05)
+	
+	if missingLuminanceRange:
+		luminanceRangeOption.usable = false
+	if missingHueRange:
+		hueRangeOption.usable = false
+	if missingLuminancePrecision:
+		luminancePrecisionOption.usable = false
+	if missingHuePrecision:
+		huePrecisionOption.usable = false
 
 	var results = {}
 
-	if !missingLuminanceRange:
-		results["luminance range"] = luminanceRangeOption
-	if !missingHueRange:
-		results["hue range"] = hueRangeOption
-	if !missingLuminancePrecision:
-		results["luminance precision"] = luminancePrecisionOption
-	if !missingHuePrecision:
-		results["hue precision"] = huePrecisionOption
+	results["luminance range"] = luminanceRangeOption
+	results["hue range"] = hueRangeOption
+	results["luminance precision"] = luminancePrecisionOption
+	results["hue precision"] = huePrecisionOption
 	return results
+
+func generateMeasurementOptions() -> Array[MachineMeasurement]:
+	return [
+		NumberMeasurement.new("luminance", "luminance", "luminance range", "luminance precision"),
+		NumberMeasurement.new("hue", "hue", "hue range", "hue precision"),
+	]

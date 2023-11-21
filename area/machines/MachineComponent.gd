@@ -1,7 +1,8 @@
 extends InventoryItem
 class_name MachineComponent
 
-var props:Dictionary = {}
+func _init():
+	super("genericComponent")
 
 func postConstruct():
 	configure(typeName, variantId, itemNumber, tier, props)
@@ -17,14 +18,8 @@ func configure(typeName:String, variantId:int, itemNumber:int, tier:int, props:D
 	catalogueId = CatalogueMgr.getCatalogueId(typeId, variantId, itemNumber)
 	return self
 
-func generateOverrideProps(props:Dictionary):
+func generateOverrideProps(_props:Dictionary):
 	pass # should override this in subclasses to modify the props dict with generated values
-
-func setProp(k:String, val):
-	props[k] = val
-
-func getProp(k:String, default=null):
-	return props.get(k, default)
 
 func getDescription():
 	return "A nondescript component"

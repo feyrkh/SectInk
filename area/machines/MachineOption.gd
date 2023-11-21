@@ -1,4 +1,4 @@
-extends RefCounted
+extends Resource
 class_name MachineOption
 
 var name:String = "unknown"

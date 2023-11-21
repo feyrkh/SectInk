@@ -17,9 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Rand="*res://catalog/Rand.gd"
 __InkRuntime="*res://addons/inkgd/runtime/static/ink_runtime.gd"
 AreaEvent="*res://area/AreaEvent.gd"
 CatalogueMgr="*res://catalog/CatalogueMgr.gd"
+PropertyMgr="*res://catalog/PropertyMgr.gd"
 
 [debug]
 

@@ -10,6 +10,11 @@ func _init(name:String, requirementType:RequirementType = RequirementType.EXACT_
 	self.name = name
 	self.requirementType = requirementType
 
+func buildEffectUI(machine:BigMachine) -> Control:
+	var result:Control = load("res://area/machines/effects/NumberMachineEffectUI.tscn").instantiate()
+	result.configure(self, machine)
+	return result
+
 func getDeviationFromIdeal(machineOption:MachineComponentOption, actualComponent:MachineComponent) -> float:
 	match requirementType:
 		RequirementType.EXACT_VALUE: return _getDeviationFromIdealExact(machineOption, actualComponent)
